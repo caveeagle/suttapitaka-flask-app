@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SuttaPitaka UI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="container">
+    <h1>SuttaPitaka UI</h1>
+
+    <form id="qa-form" autocomplete="off">
+      <label for="question">Input:</label>
+      <input id="question" name="question" type="text" />
+
+        <div class="buttons-row">
+          <button id="run-btn" type="submit">Run</button>
+          <button id="clear-btn" type="button">Clear</button>
+        </div>
+
+      <label for="output">Output:</label>
+      <textarea id="output" readonly rows="10"></textarea>
+    </form>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
