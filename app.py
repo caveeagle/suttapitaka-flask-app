@@ -1,7 +1,7 @@
 
 from flask import Flask, render_template, request, jsonify
 
-from suttapitaka_model import suttapitaka_answer_with_logging
+from suttapitaka_model_4flask import suttapitaka_answer_with_logging
 
 #####################################################################
 #####################################################################
