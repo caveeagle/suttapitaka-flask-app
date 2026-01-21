@@ -7,8 +7,10 @@ import fasteners
 import numpy as np
 from google import genai
 from google.genai.errors import ClientError
-import secret_config
 from model_indexing import build_index, search
+
+import secret_config
+import services
 
 #########################################################
 #########################################################
@@ -152,25 +154,13 @@ def suttapitaka_answer(QUESTION:str):
 #########################################################
 #########################################################
 
-def get_lock_path(app_name='myapp'):
-
-    if os.name == 'posix':  # Debian
-        return os.path.join('/run', f'{app_name}.lock')
-
-    else:  # My own local computer (not for all)
-        tmp = os.environ.get('TEMP')
-        return os.path.join(tmp, f'{app_name}.lock')
-
-#########################################################
-#########################################################
-
 def suttapitaka_answer_with_logging(QUESTION:str):
     '''
         Add another wrapper layer around the function,
         for logging and locking!
     '''
 
-    lock_path = get_lock_path('suttapitaka')
+    lock_path = services.get_lock_path('suttapitaka')
     
     lock = fasteners.InterProcessLock(lock_path)
     

@@ -2,13 +2,15 @@ import time
 import sys
 import sqlite3
 import numpy as np
+import fasteners
 
 from google import genai
 from google.genai.errors import ClientError
+from model_indexing import build_index, search
 
 import secret_config
+import services
 
-from model_indexing import build_index, search
 
 
 #########################################################
@@ -168,6 +170,15 @@ for Q_NUM, QUESTION in enumerate(QUESTIONS, start=1):
         question=QUESTION,
         sources=SOURCES
     )
+
+    lock_path = services.get_lock_path('suttapitaka')
+    
+    lock = fasteners.InterProcessLock(lock_path)
+    
+    if not lock.acquire(blocking=False):
+        
+        print(f'\nPROCESS LOCKED!')
+        sys.exit(1)
     
     try:
         
@@ -190,6 +201,12 @@ for Q_NUM, QUESTION in enumerate(QUESTIONS, start=1):
             pass
         else:
             raise
+    
+    finally:
+        
+        lock.release()    
+    
+    
         
     if MODE == 'TESTING':
         print(f'Request finished.\n\n')
