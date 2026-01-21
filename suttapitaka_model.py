@@ -1,6 +1,9 @@
 import time
 import sys
+import os
 import sqlite3
+
+import fasteners
 import numpy as np
 from google import genai
 from google.genai.errors import ClientError
@@ -148,6 +151,20 @@ def suttapitaka_answer(QUESTION:str):
 
 #########################################################
 #########################################################
+
+def suttapitaka_answer_with_logging(QUESTION:str):
+    '''
+        Add another wrapper layer around the function,
+        for logging and locking!
+    '''
+
+
+    
+    return suttapitaka_answer(QUESTION)    
+
+#########################################################
+#########################################################
+
 
 def main():
 

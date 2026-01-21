@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    output.value = "Waiting.......";
+    output.value = "Please wait: the request is taking a long time (up to a minute).\nProcessing..............";
     setDisabled(true);
 
     try {
