@@ -159,7 +159,11 @@ def suttapitaka_answer_with_logging(QUESTION:str):
         Add another wrapper layer around the function,
         for logging and locking!
     '''
-
+    
+    if not services.validateRateLimit():
+        
+         return('The request has been blocked — too many requests per minute! \n Please wait and try again later.')
+    
     lock_path = services.get_lock_path('suttapitaka')
     
     lock = fasteners.InterProcessLock(lock_path)
@@ -183,7 +187,9 @@ def suttapitaka_answer_with_logging(QUESTION:str):
     finally:
         
         lock.release()    
-
+    
+    services.setTime4RateLimit()  # Update timer, because request lasts too long
+    
     return ANSW    
 
 #########################################################
