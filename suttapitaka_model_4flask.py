@@ -11,6 +11,7 @@ from model_indexing import build_index, search
 
 import secret_config
 import services
+import web_logging
 
 #########################################################
 #########################################################
@@ -154,7 +155,7 @@ def suttapitaka_answer(QUESTION:str):
 #########################################################
 #########################################################
 
-def suttapitaka_answer_with_logging(QUESTION:str):
+def suttapitaka_answer_with_logging(QUESTION:str,cid=None,ip=None):
     '''
         Add another wrapper layer around the function,
         for logging and locking!
@@ -172,6 +173,8 @@ def suttapitaka_answer_with_logging(QUESTION:str):
         
         return('The request has been blocked — too many requests! \n Please wait and try again later.')
 
+    web_logging.web_logging(QUESTION, cid, ip)
+    
     ANSW = '...'
     
     try:

@@ -1,9 +1,10 @@
 import sqlite3
+import random
 
 #############################################################
 #############################################################
 
-db_name = 'web-logging.sqlite'
+db = 'web-logging.sqlite'
 
     
 #############################################################
@@ -26,10 +27,23 @@ def web_logging(request:str, cid: int = 0, ip: str = ''):
 #############################################################
 #############################################################
 
+def get_uid() -> str:  # get uniq id for cookies
+
+    return random.randint(1, 10_000)
+    
+    '''
+    Also we can use this:  uuid.uuid4()
+    but short int num more convinient now
+    '''
+
+
+#############################################################
+#############################################################
+
 def main():
     
-    web_logging('req')
-    web_logging('req',1,'1.1.1.1')
+    print(un_uid())
+    
     
 if __name__ == '__main__':
     main()

@@ -73,7 +73,7 @@ def validateRateLimit() -> bool:
 
 def main():
     
-    #validateRateLimit()
+    pass
 
 if __name__ == '__main__':
     main()
