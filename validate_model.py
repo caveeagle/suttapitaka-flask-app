@@ -2,13 +2,34 @@ import time
 import sys
 import sqlite3
 import numpy as np
+
 from google import genai
 from google.genai.errors import ClientError
+
 import secret_config
+
 from model_indexing import build_index, search
+
 
 #########################################################
 #########################################################
+
+####  MODE OF SCRIPT:  ###
+
+MODE = 'VALIDATION'
+
+#MODE = 'TESTING'
+
+'''
+
+TESTING - give the last question, and just show the answer
+
+VALIDATION - test all questions, and compare answers with true answ.
+
+'''
+
+
+#####  MODEL PARAMETERS:   #####  
 
 TOP_K = 5
 
@@ -19,6 +40,17 @@ MODEL = 'gemini-2.5-pro'
 FIRST_DELAY = 0.5 #  In seconds
 
 SECOND_DELAY = 2
+
+#####  QUESTION FOR VALIDATION:   #####
+
+QUESTIONS_MAP = {  # ORDER IS IMPORTANT !
+    1: 'According to the Buddha, which sensory experiences most strongly occupy a man’s mind?',
+    2: 'Can a health monk eat after noon?',
+    3: 'In which year was the Buddha born?',
+    4: 'Can a woman become an Arahant?',
+}
+
+QUESTIONS = [QUESTIONS_MAP[i] for i in sorted(QUESTIONS_MAP)]
 
 #########################################################
 #########################################################
@@ -54,7 +86,15 @@ Sources:
 #########################################################
 #########################################################
 
-def suttapitaka_answer(QUESTION:str):    
+print(f'Begin to work...\n')
+
+is_passed = True
+
+for Q_NUM, QUESTION in enumerate(QUESTIONS, start=1):    
+    
+    if MODE == 'TESTING':
+        
+         QUESTION = QUESTIONS[len(QUESTIONS)-1] #  the last
     
     API_KEY = secret_config.API_KEY
     
@@ -72,11 +112,17 @@ def suttapitaka_answer(QUESTION:str):
     
     time.sleep(FIRST_DELAY)
     
+    if MODE == 'TESTING':
+        print(f'Question embedded!')
+    
     query_vec = np.array(resp.embeddings[0].values, dtype=np.float32)
     
     top_chunk_ids, scores = search(index, chunk_ids, query_vec, k=TOP_K)
     
     assert len(top_chunk_ids) == TOP_K 
+    
+    if(0):
+        print(f'Find top chunks ids: {top_chunk_ids}')
     
     #########################################################
     #########################################################
@@ -112,6 +158,9 @@ def suttapitaka_answer(QUESTION:str):
     
     assert len(content_blocks) == TOP_K
     
+    if MODE == 'TESTING':
+        print(f'Make content blocks, ready for request:')
+    
     #########################################################
     #########################################################
     
@@ -142,28 +191,97 @@ def suttapitaka_answer(QUESTION:str):
         else:
             raise
         
+    if MODE == 'TESTING':
+        print(f'Request finished.\n\n')
+        
+    #########################################################
     #########################################################
     
-    return response.text
+    ### OUTPUT:
+    
+    if MODE == 'TESTING':
+        print('\nQUESTION:')
+        print(QUESTION)
+        print('\nANSWER:')
+        print(response.text)
+    
+    if MODE == 'TESTING':
+        break  # only last question
 
+    #########################################################
+    #########################################################
+    
+    ### VALIDATIPN:
+    
+    if MODE == 'VALIDATION':
+        
+        answ_text, sources_text = response.text.rsplit('Sources', 1)
+        
+        if Q_NUM==1:
+            
+            words = ['sight', 'sound', 'smell', 'taste', 'touch', 'of a woman']
+
+            result_1 = all(word in answ_text for word in words)
+            
+            result_2 = 'an1.1-10' in sources_text.lower()
+            
+            result = result_1 and result_2
+            
+        if Q_NUM==2:
+
+            words = ['commits an offense', 'cooked food', 'wrong time']
+
+            result_1 = all(word in answ_text for word in words)
+            
+            result_2 = 'pli-tv-bu-vb-pc37' in sources_text.lower()
+            
+            result =  result_1 and result_2
+            
+        if Q_NUM==3:
+            
+            result = "answer is not found" in answ_text
+             
+        if Q_NUM==4:
+            
+            result_1 = 'woman is able' in answ_text.lower()
+            
+            result_2 = 'she is able' in answ_text.lower()
+            
+            result_3 = 'an8.51' in sources_text.lower()
+            
+            result =  (result_1 or result_2) and result_3
+                
+        
+        ### RESULT:
+        if result:
+            
+            print(f'Test {Q_NUM} PASSED')
+        
+        else:    
+            
+            is_passed = False
+            
+            print(f'Test {Q_NUM} FAILED')
+        
+        
 #########################################################
 #########################################################
 
-def main():
 
-    QUESTION = 'Can a woman become an Arahant?'
-    
-    print(f'QUESTION: {QUESTION}')
-    
-    ANSWER = suttapitaka_answer(QUESTION)
-    
-    print(ANSWER)
-    
+if MODE == 'VALIDATION':
+
+    if is_passed:
+            print(f'\nALL TESTS PASSED!')
+            sys.exit(0)
+
+    else:
+            print(f'Some errors were encountered!')
+            print(f'\nJob finished')
+            sys.exit(1)
+
+else:
     print(f'\nJob finished')
+    sys.exit(0)
 
 #########################################################
-#########################################################
-
-if __name__ == "__main__":
-    main()
 #########################################################
