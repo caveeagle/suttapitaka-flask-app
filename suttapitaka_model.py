@@ -152,15 +152,49 @@ def suttapitaka_answer(QUESTION:str):
 #########################################################
 #########################################################
 
+def get_lock_path(app_name='myapp'):
+
+    if os.name == 'posix':  # Debian
+        return os.path.join('/run', f'{app_name}.lock')
+
+    else:  # My own local computer (not for all)
+        tmp = os.environ.get('TEMP')
+        return os.path.join(tmp, f'{app_name}.lock')
+
+#########################################################
+#########################################################
+
 def suttapitaka_answer_with_logging(QUESTION:str):
     '''
         Add another wrapper layer around the function,
         for logging and locking!
     '''
 
-
+    lock_path = get_lock_path('suttapitaka')
     
-    return suttapitaka_answer(QUESTION)    
+    lock = fasteners.InterProcessLock(lock_path)
+    
+    if not lock.acquire(blocking=False):
+        
+        return('The request has been blocked — too many requests! \n Please wait and try again later.')
+
+    ANSW = '...'
+    
+    try:
+    
+        ANSW = suttapitaka_answer(QUESTION)
+    
+    except Exception as e:
+
+        print(f'Error: {e}')
+
+        ANSW = 'Error: smth went wrong...'
+    
+    finally:
+        
+        lock.release()    
+
+    return ANSW    
 
 #########################################################
 #########################################################
@@ -172,7 +206,7 @@ def main():
     
     print(f'QUESTION: {QUESTION}')
     
-    ANSWER = suttapitaka_answer(QUESTION)
+    ANSWER = suttapitaka_answer_with_logging(QUESTION)
     
     print(ANSWER)
     

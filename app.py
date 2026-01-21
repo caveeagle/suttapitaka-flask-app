@@ -1,7 +1,7 @@
 
 from flask import Flask, render_template, request, jsonify
 
-from suttapitaka_model import suttapitaka_answer
+from suttapitaka_model import suttapitaka_answer_with_logging
 
 #####################################################################
 #####################################################################
@@ -26,7 +26,7 @@ def api_answer():
         return jsonify({'ok': False, 'error': 'Empty input'}), 400
 
     try:
-        result = suttapitaka_answer(text)
+        result = suttapitaka_answer_with_logging(text)
         return jsonify({'ok': True, 'result': result})
 
     except Exception as e:
