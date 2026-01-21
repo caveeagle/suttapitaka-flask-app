@@ -70,9 +70,10 @@ def validateRateLimit() -> bool:
 #############################################################
 #############################################################
 
+
 def main():
     
-    validateRateLimit()
+    #validateRateLimit()
 
 if __name__ == '__main__':
     main()
