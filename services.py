@@ -10,15 +10,15 @@ REQUESTS_INTERVAL = 20  # In seconds
 #############################################################
 #############################################################
 
-def get_lock_path(app_name='myapp'):
-
-    if os.name == 'posix':  # Debian
-        return os.path.join('/run', f'{app_name}.lock')
-
-    else:  # My own local computer (not for all)
-        tmp = os.environ.get('TEMP')
-        return os.path.join(tmp, f'{app_name}.lock')
-
+def get_lock_path(app_name='suttapitaka'):
+    
+    if os.environ.get('IN_DOCKER'):
+        return f'/app/run/{app_name}.lock'
+    elif os.name == 'posix':
+        return f'/run/suttapitaka/{app_name}.lock'
+    else:
+        return os.path.join(os.environ['TEMP'], f'{app_name}.lock')
+        
 #############################################################
 #############################################################
 

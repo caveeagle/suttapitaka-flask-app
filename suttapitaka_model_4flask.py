@@ -150,7 +150,13 @@ def suttapitaka_answer(QUESTION:str):
         
     #########################################################
     
-    return response.text
+    answer = response.text
+    
+    if 'answer is not found' in answer:
+        
+        answer = 'The answer is not found in the provided sources.'
+    
+    return answer
 
 #########################################################
 #########################################################
