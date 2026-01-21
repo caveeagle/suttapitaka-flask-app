@@ -3,23 +3,24 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SuttaPitaka UI</title>
+  <title>SuttaPitaka Questions</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
 </head>
 <body>
   <main class="container">
-    <h1>SuttaPitaka UI</h1>
+    <h1 align=center>SuttaPitaka Questions</h1>
 
     <form id="qa-form" autocomplete="off">
-      <label for="question">Input:</label>
+      <label for="question">Question:</label>
       <input id="question" name="question" type="text" />
 
         <div class="buttons-row">
-          <button id="run-btn" type="submit">Run</button>
+          <button id="run-btn" type="submit">Ask</button>
           <button id="clear-btn" type="button">Clear</button>
         </div>
 
-      <label for="output">Output:</label>
+      <label for="output">Answer:</label>
       <textarea id="output" readonly rows="10"></textarea>
     </form>
   </main>
