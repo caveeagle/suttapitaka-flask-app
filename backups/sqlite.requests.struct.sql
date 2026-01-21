@@ -6,4 +6,6 @@ CREATE TABLE IF NOT EXISTS requests (
     request TEXT NOT NULL,
     req_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+CREATE INDEX idx_requests_req_time
+ON requests (req_time);
 COMMIT;

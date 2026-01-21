@@ -1,3 +1,4 @@
 ﻿__pycache__
 secret_config.py
 last.request.time.txt
+web-logging.sqlite
