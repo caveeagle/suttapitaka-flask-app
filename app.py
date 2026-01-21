@@ -1,3 +1,4 @@
+import os
 
 from flask import Flask, render_template, request, jsonify, make_response
 
@@ -8,17 +9,24 @@ import web_logging
 #####################################################################
 #####################################################################
 
-app = Flask(__name__)
+URL_PREFIX = '/suttapitaka' if os.name == 'posix' else ''
+
+app = Flask(
+    __name__,
+    static_url_path=f'{URL_PREFIX}/static'
+)
 
 @app.get('/')
+@app.get(f'{URL_PREFIX}/')
 
 def index():
     return render_template('index.htm')
 
-@app.post('/api/answer')
+#####################################################################
+#####################################################################
 
-#####################################################################
-#####################################################################
+@app.post('/api/answer')
+@app.post(f'{URL_PREFIX}/api/answer')
 
 def api_answer():
     data = request.get_json(silent=True) or {}

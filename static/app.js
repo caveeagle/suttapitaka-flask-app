@@ -54,7 +54,8 @@ document.addEventListener("DOMContentLoaded", () => {
     setDisabled(true);
 
     try {
-      const data = await postJSON("/api/answer", { text });
+      const data = await postJSON("api/answer", { text });
+      
       output.value = data.result ?? "";
     } catch (err) {
       output.value = `Error: ${err.message}`;
