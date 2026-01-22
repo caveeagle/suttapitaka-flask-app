@@ -1,5 +1,7 @@
 FROM python:3.9-slim
 
+ENV PYTHONWARNINGS=ignore::FutureWarning
+
 # рабочая директория
 WORKDIR /app
 
@@ -25,4 +27,4 @@ RUN apt-get update \
 EXPOSE 8000
 
 # запуск
-CMD ["gunicorn", "--workers", "2", "--bind", "0.0.0.0:8000", "app:app"]
+CMD ["gunicorn", "--workers", "2", "--bind", "0.0.0.0:8008", "app:app"]

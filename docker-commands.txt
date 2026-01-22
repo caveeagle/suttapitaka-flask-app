@@ -1,0 +1,15 @@
+
+docker stop suttapitaka_app
+
+docker rm suttapitaka_app
+
+docker build --no-cache -t suttapitaka .
+
+docker run -d --name suttapitaka_app -p 127.0.0.1:8008:8008 suttapitaka
+
+docker ps | grep suttapitaka_app
+
+docker logs suttapitaka_app
+
+curl http://127.0.0.1:8008/
+

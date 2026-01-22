@@ -1,6 +1,7 @@
 fasteners==0.20
 Flask==3.1.2
-numpy==2.4.1
+numpy==1.26.4
 protobuf==6.33.4
-google-genai==1.57.0
-faiss-cpu==1.13.2
+google-genai==1.47.0
+faiss-cpu==1.13.0
+gunicorn==23.0.0
