@@ -13,6 +13,12 @@ The limitation is approximately **one request per minute**. This limitation exis
 
 My wife really liked asking the question: **“Can a woman become an Arahant?”** — so it has now become the test question for model validation.
 
+v1 - release
+
+
+
+
+
 
 
 
