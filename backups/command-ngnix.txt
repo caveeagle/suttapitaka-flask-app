@@ -1,8 +1,0 @@
-
-sudo nano /etc/nginx/sites-available/<mysite>.conf
-
-sudo nginx -t
-    
-sudo systemctl reload nginx
-
-sudo systemctl restart flask-app
