@@ -22,6 +22,40 @@ def get_lock_path(app_name='suttapitaka'):
 #############################################################
 #############################################################
 
+def get_uid() -> str:  # get uniq id for cookies
+
+    return random.randint(1, 10_000)
+    
+    '''
+    Also we can use this:  uuid.uuid4()
+    but short int num more convinient now
+    '''
+
+def web_logging(request:str, cid: int = 0, ip: str = ''):
+    
+    pass
+    # !!!!!!!!!!!!!!!!!!
+
+    
+    return
+
+#############################################################
+#############################################################
+
+
+def get_api_key():
+    
+    API_KEY = os.environ.get('GEMINI_API_KEY')
+
+    if not API_KEY:
+        
+        print('There is no such variable: GEMINI_API_KEY',)    
+    
+    return API_KEY
+
+#############################################################
+#############################################################
+
 TIMER_FILE = 'last.request.time.txt'
 
 def setTime4RateLimit():
@@ -52,11 +86,6 @@ def validateRateLimit() -> bool:
     now = int(time.time())   
     
     delta = now - last_access
-    
-    DEBUG = 0
-    
-    if DEBUG:
-        print(f'Delta: {delta}')
     
     if delta < REQUESTS_INTERVAL:
         

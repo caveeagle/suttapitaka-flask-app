@@ -2,22 +2,18 @@ import os
 
 from flask import Flask, render_template, request, jsonify, make_response
 
-from suttapitaka_model_4flask import suttapitaka_answer_with_logging
+import services
 
-import web_logging
+from suttapitaka_model import suttapitaka_answer
 
 #####################################################################
 #####################################################################
-
-URL_PREFIX = '/suttapitaka' if os.name == 'posix' else ''
 
 app = Flask(
-    __name__,
-    static_url_path=f'{URL_PREFIX}/static'
+    __name__
 )
 
 @app.get('/')
-@app.get(f'{URL_PREFIX}/')
 
 def index():
     return render_template('index.htm')
@@ -26,7 +22,6 @@ def index():
 #####################################################################
 
 @app.post('/api/answer')
-@app.post(f'{URL_PREFIX}/api/answer')
 
 def api_answer():
     data = request.get_json(silent=True) or {}
@@ -43,15 +38,10 @@ def api_answer():
     cid = request.cookies.get('cid')
     
     if not cid:
-        cid = str(web_logging.get_uid())
-    
-    DEBUG = 0
-        
-    if DEBUG:
-        cid = '8888'    
+        cid = str(services.get_uid())
     
     try:
-        result = suttapitaka_answer_with_logging(text,cid,client_ip)
+        result = suttapitaka_answer(text,cid,client_ip)
         
         resp = make_response(jsonify({'ok': True, 'result': result}))
 

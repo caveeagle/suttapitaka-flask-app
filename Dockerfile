@@ -1,30 +1,22 @@
 FROM python:3.9-slim
 
 ENV PYTHONWARNINGS=ignore::FutureWarning
+ENV PYTHONUNBUFFERED=1
+ENV IN_DOCKER=1
+ENV TZ=Europe/Brussels
 
-# рабочая директория
 WORKDIR /app
 
-# зависимости
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# код приложения
-COPY . .
-
-# (опционально) чтобы логи сразу шли в stdout
-ENV PYTHONUNBUFFERED=1
-
-ENV IN_DOCKER=1
-
-ENV TZ=Europe/Brussels
 
 RUN apt-get update \
     && apt-get install -y tzdata \
     && rm -rf /var/lib/apt/lists/*
-    
-# порт внутри контейнера
-EXPOSE 8000
 
-# запуск
-CMD ["gunicorn", "--workers", "2", "--bind", "0.0.0.0:8008", "app:app"]
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+EXPOSE 8080
+
+CMD ["gunicorn", "--workers", "1", "--bind", "0.0.0.0:8080", "app:app"]

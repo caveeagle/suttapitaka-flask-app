@@ -1,7 +1,5 @@
 __pycache__/
 
-secret_config.py
-
 .git/
 .gitignore
 .gitattributes
