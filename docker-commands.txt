@@ -1,17 +1,11 @@
 
-docker stop suttapitaka_app
+docker build -t suttapitaka .
 
-docker rm suttapitaka_app
+###############################################
 
-docker build --no-cache -t suttapitaka .
+docker run -p 8080:8080 -e GEMINI_API_KEY=$GEMINI_API_KEY suttapitaka
 
-###docker run -d --name suttapitaka_app -p 127.0.0.1:8008:8008 suttapitaka
+###############################################
 
-docker run -d --name suttapitaka_app -p 127.0.0.1:8008:8008 -v /home/Cave/Projects/flask-app/secret_config.py:/app/secret_config.py:ro suttapitaka
-
-docker ps | grep suttapitaka_app
-
-docker logs suttapitaka_app
-
-curl http://127.0.0.1:8008/
+docker stop suttapitaka
 
