@@ -24,11 +24,10 @@ def get_lock_path(app_name='suttapitaka'):
 #############################################################
 #############################################################
 
-logger = logging.getLogger('sutra')
-logger.setLevel(logging.INFO)
-
-handler = logging.StreamHandler(sys.stdout)
-logger.addHandler(handler)
+logging.basicConfig(
+    level=logging.INFO,
+    handlers=[logging.StreamHandler(sys.stdout)],
+)
 
 #############################################################
 #############################################################
@@ -44,11 +43,11 @@ def get_uid() -> str:  # get uniq id for cookies
 
 def web_logging(request:str, cid: int = 0, ip: str = '-'):
     
-    logger.info(f'INFO [SUTRA] ~~~~~~~~~~')
-    logger.info(f'INFO [SUTRA] [IP] {ip}')
-    logger.info(f'INFO [SUTRA] [CID] {cid}')
-    logger.info(f'INFO [SUTRA] [REQ] {request}')
-    logger.info(f'INFO [SUTRA] ----------')
+    logging.info(f'[SUTRA] ~~~~~~~~~~')
+    logging.info(f'[SUTRA] [IP] {ip}')
+    logging.info(f'[SUTRA] [CID] {cid}')
+    logging.info(f'[SUTRA] [REQ] {request}')
+    logging.info(f'[SUTRA] ----------')
     
     return
 
