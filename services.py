@@ -42,13 +42,13 @@ def get_uid() -> str:  # get uniq id for cookies
     but short int num more convinient now
     '''
 
-def web_logging(request:str, cid: int = 0, ip: str = ''):
+def web_logging(request:str, cid: int = 0, ip: str = '-'):
     
-    logger.info(f'[SUTRA] ~~~~~~~~~~')
-    logger.info(f'[SUTRA] [IP] {ip}')
-    logger.info(f'[SUTRA] [CID] {cid}')
-    logger.info(f'[SUTRA] [REQ] {request}')
-    logger.info(f'[SUTRA] ----------')
+    logger.info(f'INFO [SUTRA] ~~~~~~~~~~')
+    logger.info(f'INFO [SUTRA] [IP] {ip}')
+    logger.info(f'INFO [SUTRA] [CID] {cid}')
+    logger.info(f'INFO [SUTRA] [REQ] {request}')
+    logger.info(f'INFO [SUTRA] ----------')
     
     return
 

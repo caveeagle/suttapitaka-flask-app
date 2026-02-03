@@ -30,11 +30,15 @@ def api_answer():
     if not text:
         return jsonify({'ok': False, 'error': 'Empty input'}), 400
 
-    client_ip = request.headers.get('X-Forwarded-For', request.remote_addr)
-
-    if client_ip:
-        client_ip = client_ip.split(',')[0].strip()
+    client_ip = (
+        request.headers.get("X-Forwarded-For")
+        or request.headers.get("X-Real-IP")
+        or request.remote_addr
+    )
     
+    if client_ip:
+        client_ip = client_ip.split(",")[0].strip()
+        
     cid = request.cookies.get('cid')
     
     if not cid:
