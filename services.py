@@ -43,7 +43,10 @@ def get_uid() -> str:  # get uniq id for cookies
 
 def web_logging(request:str, cid: int = 0, ip: str = '-'):
     
+    now_str = time.strftime('%d.%m.%Y - %H:%M:%S', time.localtime())
+    
     logging.info(f'[SUTRA] ~~~~~~~~~~')
+    logging.info(f'[SUTRA] [DATETIME] {now_str}')
     logging.info(f'[SUTRA] [IP] {ip}')
     logging.info(f'[SUTRA] [CID] {cid}')
     logging.info(f'[SUTRA] [REQ] {request}')
