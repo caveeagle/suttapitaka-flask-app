@@ -2,6 +2,7 @@ import time
 import sys
 import os
 import random
+import logging
 
 #############################################################
 #############################################################
@@ -23,6 +24,15 @@ def get_lock_path(app_name='suttapitaka'):
 #############################################################
 #############################################################
 
+logger = logging.getLogger('sutra')
+logger.setLevel(logging.INFO)
+
+handler = logging.StreamHandler(sys.stdout)
+logger.addHandler(handler)
+
+#############################################################
+#############################################################
+
 def get_uid() -> str:  # get uniq id for cookies
 
     return random.randint(1, 10_000)
@@ -34,9 +44,11 @@ def get_uid() -> str:  # get uniq id for cookies
 
 def web_logging(request:str, cid: int = 0, ip: str = ''):
     
-    pass
-    # !!!!!!!!!!!!!!!!!!
-
+    logger.info(f'[SUTRA] ~~~~~~~~~~')
+    logger.info(f'[SUTRA] [IP] {ip}')
+    logger.info(f'[SUTRA] [CID] {cid}')
+    logger.info(f'[SUTRA] [REQ] {request}')
+    logger.info(f'[SUTRA] ----------')
     
     return
 
