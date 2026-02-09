@@ -70,10 +70,10 @@ def suttapitaka_answer_base(QUESTION:str):
     index, chunk_ids = build_index()
     
     resp = client.models.embed_content(
-        model='models/text-embedding-004',
+        model='models/gemini-embedding-001',
         contents=[QUESTION],
     )
-    
+
     time.sleep(FIRST_DELAY)
     
     query_vec = np.array(resp.embeddings[0].values, dtype=np.float32)
