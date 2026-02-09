@@ -1,0 +1,29 @@
+
+cd ./suttapitaka-flask-app
+
+# Rebuild container:
+
+docker build -t suttapitaka .
+
+# Get goole-cloud's projects list:
+
+gcloud projects list
+
+# Set active project:
+
+gcloud config set project gen-lang-client-0239534546
+
+# Tags docer image for pushings
+
+docker tag suttapitaka europe-west1-docker.pkg.dev/gen-lang-client-0239534546/suttapitaka-docker-repo/suttapitaka:latest
+
+# Push image
+
+docker push europe-west1-docker.pkg.dev/gen-lang-client-0239534546/suttapitaka-docker-repo/suttapitaka:latest
+
+### After that:
+
+On the Google Cloud choose Cloud Run -> Your project (in the left-upper corner) -> Edit & deploy new revision
+Choose container (Container image URL) -> choose latest (from the tree)
+Check Secrets in variables (in Variables & Secrets) -> Deploy!
+
