@@ -71,6 +71,7 @@ def suttapitaka_answer_base(QUESTION:str):
     
     resp = client.models.embed_content(
         model='models/gemini-embedding-001',
+        config={'output_dimensionality': 768},
         contents=[QUESTION],
     )
 
