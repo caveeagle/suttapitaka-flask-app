@@ -38,6 +38,18 @@ def api_answer():
     
     if client_ip:
         client_ip = client_ip.split(",")[0].strip()
+    
+    DEBUG = 1
+    
+    if(DEBUG):
+        
+        print('~~~~~~~~~~~~~~~~~~~')
+        print('[!DEBUG!]')
+        print('remote_addr:',{request.remote_addr})
+        print('X-Real-IP',request.headers.get("X-Real-IP"))
+        print('X-Forwarded-For',request.headers.get("X-Forwarded-For"))
+        print('Forwarded',request.headers.get("Forwarded"))
+        print('~~~~~~~~~~~~~~~~~~~')
         
     cid = request.cookies.get('cid')
     
