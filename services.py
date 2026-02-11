@@ -61,6 +61,8 @@ try:
     blob = bucket.blob(BLOB_NAME)
     blob.download_to_filename(LOCAL_FILE)
     
+    logging.info('SQLite DB downloaded')
+    
 except Exception as e:
     print("Something failed with logging:", type(e).__name__, "-", e)
 
@@ -96,6 +98,8 @@ def web_logging(request:str, cid: int = 0, ip: str = '-'):
         
         
         blob.upload_from_filename(LOCAL_FILE)
+        
+        logging.info('Web logging done')
 
     except Exception as e:
         print('Upload failed:', type(e).__name__, ' - ', e)
