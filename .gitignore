@@ -3,3 +3,4 @@ secret_config.py
 last.request.time.txt
 web-logging.sqlite
 backup/suttapitaka-flask-app-old(v1).zip
+gen-lang-*

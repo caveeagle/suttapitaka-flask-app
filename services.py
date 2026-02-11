@@ -4,6 +4,8 @@ import os
 import random
 import logging
 
+
+
 #############################################################
 #############################################################
 
@@ -41,6 +43,30 @@ def get_uid() -> str:  # get uniq id for cookies
     but short int num more convinient now
     '''
 
+#############################################################
+#############################################################
+
+BUCKET_NAME = 'suttapitaka-logs'
+
+BLOB_NAME = 'web-logging.sqlite'
+
+LOCAL_FILE = BLOB_NAME
+
+try:
+    
+    from google.cloud import storage
+
+    client = storage.Client()
+    bucket = client.bucket(BUCKET_NAME)
+    blob = bucket.blob(BLOB_NAME)
+    blob.download_to_filename(LOCAL_FILE)
+    
+except Exception as e:
+    print("Something failed with logging:", type(e).__name__, "-", e)
+
+#############################################################
+#############################################################
+
 def web_logging(request:str, cid: int = 0, ip: str = '-'):
     
     now_str = time.strftime('%d.%m.%Y - %H:%M:%S', time.localtime())
@@ -51,6 +77,30 @@ def web_logging(request:str, cid: int = 0, ip: str = '-'):
     logging.info(f'[SUTRA] [CID] {cid}')
     logging.info(f'[SUTRA] [REQ] {request}')
     logging.info(f'[SUTRA] ----------')
+    
+    ###################################
+    
+    db = 'web-logging.sqlite'
+
+    try:
+    
+        with sqlite3.connect(db) as conn:
+        
+            conn.execute(
+                '''
+                INSERT INTO requests (cid, ip, request)
+                VALUES (?, ?, ?)
+                ''',
+                (cid, ip, request)
+            )
+        
+        
+        blob.upload_from_filename(LOCAL_FILE)
+
+    except Exception as e:
+        print('Upload failed:', type(e).__name__, ' - ', e)
+    
+    ###################################
     
     return
 

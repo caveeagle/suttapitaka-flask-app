@@ -5,3 +5,4 @@ protobuf==6.33.4
 google-genai==1.47.0
 faiss-cpu==1.13.0
 gunicorn==23.0.0
+google-cloud-storage==3.9.0
