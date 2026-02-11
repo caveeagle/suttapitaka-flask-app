@@ -39,7 +39,7 @@ def api_answer():
     if client_ip:
         client_ip = client_ip.split(",")[0].strip()
     
-    DEBUG = 1
+    DEBUG = 0
     
     if(DEBUG):
         
