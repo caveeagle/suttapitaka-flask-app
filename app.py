@@ -48,7 +48,8 @@ def api_answer():
         print('remote_addr:',{request.remote_addr})
         print('X-Real-IP',request.headers.get("X-Real-IP"))
         print('X-Forwarded-For',request.headers.get("X-Forwarded-For"))
-        print('Forwarded',request.headers.get("Forwarded"))
+        print('Forwarded',request.headers.get("Forwarded")) 
+        print('X-Real-IP',request.headers.get("X-Real-IP")) 
         print('~~~~~~~~~~~~~~~~~~~')
         
     cid = request.cookies.get('cid')
