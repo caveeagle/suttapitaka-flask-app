@@ -86,7 +86,7 @@ def web_logging(request:str, cid: int = 0, ip: str = '-'):
 
     try:
     
-        with sqlite3.connect(db) as conn:
+        with sqlite3.connect(LOCAL_FILE) as conn:
         
             conn.execute(
                 '''
@@ -95,7 +95,7 @@ def web_logging(request:str, cid: int = 0, ip: str = '-'):
                 ''',
                 (cid, ip, request)
             )
-        
+            conn.commit()
         
         blob.upload_from_filename(LOCAL_FILE)
         
