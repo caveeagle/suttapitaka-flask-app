@@ -9,13 +9,17 @@ WORKDIR /app
 
 
 RUN apt-get update \
-    && apt-get install -y tzdata \
+    && apt-get install -y tzdata curl \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
+
+RUN curl -fL "https://media.githubusercontent.com/media/caveeagle/suttapitaka-flask-app/master/sutta-pitaka.sqlite" \
+    -o /app/sutta-pitaka.sqlite \
+    && ls -la /app/sutta-pitaka.sqlite
 
 EXPOSE 8080
 
