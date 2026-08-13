@@ -18,7 +18,8 @@ TOP_K = 5
 
 TEMPERATURE = 0.5
 
-MODEL = 'gemini-2.5-pro'
+#MODEL = 'gemini-2.5-pro'
+MODEL = 'gemini-flash-latest'
 
 FIRST_DELAY = 0.5 #  In seconds
 
