@@ -6,7 +6,7 @@ import sqlite3
 import fasteners
 import numpy as np
 from google import genai
-from google.genai.errors import ClientError
+from google.genai.errors import ClientError, ServerError
 from model_indexing import build_index, search
 
 import services
@@ -18,7 +18,8 @@ TOP_K = 5
 
 TEMPERATURE = 0.5
 
-#MODEL = 'gemini-2.5-pro'
+####MODEL = 'gemini-2.5-pro'
+
 MODEL = 'gemini-flash-latest'
 
 FIRST_DELAY = 0.5 #  In seconds
@@ -143,11 +144,21 @@ def suttapitaka_answer_base(QUESTION:str):
     
         if "429" in msg or "RESOURCE_EXHAUSTED" in msg:
             print(f'ERROR 429 - LIMITS EXCEEDED!')
-            # просто выходим, ничего не выводим
-            pass
+            return 'Error 429 - Limits Exceeded'
+            
         else:
             raise
-        
+    
+    except ServerError as e:
+        msg = str(e)
+
+        if "503" in msg or "UNAVAILABLE" in msg:
+            print(f'ERROR 503 - MODEL OVERLOADED!')
+            #pass
+            return('Error 503 - Google Overloaded, try again later.')
+        else:
+            raise    
+
     #########################################################
     
     answer = response.text
@@ -210,7 +221,7 @@ def main():
     
     print(f'QUESTION: {QUESTION}')
     
-    ANSWER = suttapitaka_answer_with_logging(QUESTION)
+    ANSWER = suttapitaka_answer_base(QUESTION)
     
     print(ANSWER)
     
